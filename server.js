@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Youtube Video Downloader.')
 })
 
+app.get('/:video_id', (req, res) => {
+    res.send()
+});
+
 app.get('/download/:video_id', (req, res) => {
     res.send(req.params.video_id);
 });
