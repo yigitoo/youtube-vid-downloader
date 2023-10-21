@@ -5,6 +5,8 @@ class Video {
         this.url = url;
         this.options = options;
         this.is_downloaded = isVideoDownloaded(url);
+
+        this.file = null;
     }
 
     setOptions(options){ this.options = options; }
@@ -12,6 +14,16 @@ class Video {
 
     setId(id){ this.id = id; }
     getId(){ return this.id; }
+
+    getVideo()
+    {
+        if (this.video)
+        {
+            return this.video;
+        } else {
+            return this.downloadVideo(this.url, this.options)
+        }
+    }
 
     isFileExist(filename){ return existsSync(filename); }
 
@@ -23,14 +35,20 @@ class Video {
         }
         return false;
     }
+
+    Download() {
+        this.file = this.BuildVideo();
+    }
+
+    BuildVideo(){}
 }
 
-function downloadVideo(req, res, next)
+function downloadVideo(url, options)
 {
     let p = req.params;
     const video = new Video(p.options, p.url);
-
-
+    video.Download();
+    return video;
 }
 
 function removeVideo(video_id)

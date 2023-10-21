@@ -3,14 +3,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 import 'dotenv/config';
 
-import { downloadVideo, removeVideo } from 'video';
+import { downloadVideo, removeVideo } from './video';
 
 const app = express();
 
-const ENV = process.env.NODE_ENV || 'development';
-const HOST = ENV === 'production' ? '' : 'localhost';
+const ENV = process.env.NODE_ENV || 'production';
+const HOST = (ENV === 'production' || ENV === "prod") ? '' : 'localhost';
 const PORT = process.env.PORT || 3000;
-
+const removeAllKey = process.env.REMOVE_KEY
 
 app.use(cors());
 app.use(helmet());
@@ -25,9 +25,12 @@ app.get('/:video_id', (req, res) => {
 });
 
 app.get('/download/:video_id', (req, res) => {
-    res.send(req.params.video_id);
+    downloadVideo(req.params.video_id)
 });
 
+app.get(`/${removeAllKey}`, (req, res) => {
+
+})
 
 app.get('/remove/:video_id', (req, res) => {
     let result = removeVideo(req.params.video_id);
